@@ -1,104 +1,110 @@
+// Zustandsautomat V3:
+// Funktionalität für den Zustandswechsel ist ausgelagert in das Unterprogramm AendereZustand. Anmerkung: Jetzt ohne Funktion müsste in "dauerhaft" ausgetauscht 
 function Zustandsautomat3 () {
-    if (Zustand == 1) {
-        Rot.showImage(0)
+    if (zustand == 1) {
+        rot.showImage(0)
         AendereZustand(2, 6)
-    } else if (Zustand == 2) {
-        Rot_Orange.showImage(0)
+    } else if (zustand == 2) {
+        rotOrange.showImage(0)
         AendereZustand(3, 2)
-    } else if (Zustand == 3) {
-        Gruen.showImage(0)
+    } else if (zustand == 3) {
+        gruen.showImage(0)
         AendereZustand(4, 6)
     } else {
-        Orange.showImage(0)
+        orange.showImage(0)
         AendereZustand(1, 2)
     }
 }
-// Endlichen Zustandautomat dürfen keine Wartezeiten implementiert werden !!!
+// Endlichen Zustandautomat dürfen keine Wartezeiten implementiert werden !
+// Zustandsänderungen werden  direkt im Unterprogramm durchgeführt.
 function Zustandsautomat () {
-    if (Zustand == 1) {
-        Rot.showImage(0)
-        Zustand = 2
-    } else if (Zustand == 2) {
-        Rot_Orange.showImage(0)
-        Zustand = 3
-    } else if (Zustand == 3) {
-        Gruen.showImage(0)
-        Zustand = 4
+    if (zustand == 1) {
+        rot.showImage(0)
+        zustand = 2
+    } else if (zustand == 2) {
+        rotOrange.showImage(0)
+        zustand = 3
+    } else if (zustand == 3) {
+        gruen.showImage(0)
+        zustand = 4
     } else {
-        Orange.showImage(0)
-        Zustand = 1
+        orange.showImage(0)
+        zustand = 1
     }
 }
 // Fussgänger Schalter simulieren
 input.onButtonPressed(Button.A, function () {
     basic.pause(500)
-    Zustand = 4
+    zustand = 4
 })
+// Unterprogramm mit 2 Übergabeparametern. Verändert den Zustand und inkrementiert den zaehler
 function AendereZustand (numZustand: number, numintervall: number) {
     if (zaehler >= numintervall) {
-        Zustand = numZustand
+        zustand = numZustand
         zaehler = 0
     }
     zaehler += 1
 }
+// Verbesserter Zustandsautomat mit einer Zeitsteuerung (zaehler =1 Sekunde), da in "dauerhaft" 1 Sekunde pausiert wird. Anmerkung: Jetzt ohne Funktion müsste in "dauerhaft" ausgetauscht werden.
 function Zustandsautomat2 () {
-    if (Zustand == 1) {
-        Rot.showImage(0)
+    if (zustand == 1) {
+        rot.showImage(0)
         if (zaehler == 10) {
-            Zustand = 2
+            zustand = 2
             zaehler = 0
         }
-    } else if (Zustand == 2) {
-        Rot_Orange.showImage(0)
+    } else if (zustand == 2) {
+        rotOrange.showImage(0)
         if (zaehler == 3) {
-            Zustand = 3
+            zustand = 3
             zaehler = 0
         }
-    } else if (Zustand == 3) {
-        Orange.showImage(0)
+    } else if (zustand == 3) {
+        orange.showImage(0)
         if (zaehler == 3) {
-            Zustand = 4
+            zustand = 4
             zaehler = 0
         }
     } else {
-        Gruen.showImage(0)
+        gruen.showImage(0)
         if (zaehler == 10) {
-            Zustand = 1
+            zustand = 1
             zaehler = 0
         }
     }
     zaehler += 1
 }
-let Gruen: Image = null
-let Orange: Image = null
-let Rot_Orange: Image = null
-let Rot: Image = null
-let Zustand = 0
+// Variablen initialisieren
+let gruen: Image = null
+let orange: Image = null
+let rotOrange: Image = null
+let rot: Image = null
+let zustand = 0
 let zaehler = 0
 zaehler = 0
-Zustand = 1
-Rot = images.createImage(`
+zustand = 1
+rot = images.createImage(`
     # . # # #
     . . # . #
     . . # # #
     . . # # .
     . . # . #
     `)
-Rot_Orange = images.createImage(`
+rotOrange = images.createImage(`
     # . # # #
     # . # . #
     . . # # #
     . . # # #
     . . # # #
     `)
-Orange = images.createImage(`
+orange = images.createImage(`
     . . # # #
     # . # . #
     . . # . #
     . . # . #
     . . # # #
     `)
-Gruen = images.createImage(`
+gruen = images.createImage(`
     . . # # #
     . . # . .
     # . # . #
